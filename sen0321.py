@@ -60,7 +60,7 @@ class DFRobot_Ozone(object):
     if mode ==  MEASURE_MODE_AUTOMATIC:
       __m_flag = 0
       self.__txbuf[0] = MEASURE_MODE_AUTOMATIC 
-      self.write_reg(MODE_REGISTER ,self.__txbuf)
+      self.write_reg(MODE_REGISTER ,str(self.__txbuf))
     elif mode == MEASURE_MODE_PASSIVE:
       __m_flag = 1
       self.__txbuf[0] = MEASURE_MODE_PASSIVE
@@ -80,7 +80,7 @@ class DFRobot_Ozone(object):
         self.__ozonedata[num-1] = self.__ozonedata[num-2]
       if self.__m_flag == 0:
         self.__txbuf[0] = AUTO_READ_DATA
-        self.write_reg(SET_PASSIVE_REGISTER ,self.__txbuf)
+        self.write_reg(SET_PASSIVE_REGISTER ,str(self.__txbuf))
         self.__ozonedata[0] = self.get_ozone(AUTO_DATA_HIGE_REGISTER)
       elif self.__m_flag == 1:
         self.__txbuf[0] = PASSIVE_READ_DATA
@@ -111,7 +111,7 @@ class DFRobot_Ozone_IIC(DFRobot_Ozone):
     self.i2cbus.writeto_mem(self.__addr ,reg ,data)
 
   def read_reg(self, reg ,len):
-    rslt = self.i2cbus.writeto_mem(self.__addr ,reg ,len)
+    rslt = self.i2cbus.readfrom_mem(self.__addr ,reg ,len)
     return rslt
 
 COLLECT_NUMBER   = 20              # collect number, the collection range is 1-100
@@ -135,6 +135,6 @@ ozone = DFRobot_Ozone_IIC(IIC_MODE ,OZONE_ADDRESS_3)
 ozone.set_mode(MEASURE_MODE_AUTOMATIC)
 while(1):
   ''' Smooth data collection the collection range is 1-100 '''
-  ozone_concentration = ozone.get_ozone_data(COLLECT_NUMBER)
-  print("Ozone concentration is %d PPB."%ozone_concentration)
+  ozone_concentration = ozone.get_ozone_data(COLLECT_NUMBER)*1.996
+  print("Ozone concentration is %d \u03BCg/m^3."%ozone_concentration)
   time.sleep(1)

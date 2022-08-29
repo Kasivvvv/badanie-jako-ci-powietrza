@@ -2,6 +2,8 @@ import bme280
 import bmp180
 import HTU21D
 import mq7
+import mq135
+import sen0321
 
 
 
@@ -16,6 +18,13 @@ lectura = HTU21D(7,6)
 mq7 = MQ7(26,3.3)
 
 mq135 = MQ135(26)
+
+IIC_MODE         = 0x01
+OZONE_ADDRESS_3    = 0x73
+MEASURE_MODE_AUTOMATIC    = 0x00
+
+sen0321 = DFRobot_Ozone_IIC(IIC_MODE ,OZONE_ADDRESS_3)
+sen0321.set_mode(MEASURE_MODE_AUTOMATIC)
 
 while True:
 
@@ -52,6 +61,9 @@ while True:
     print('PPM:'+str(ppm)+'ppm')
     print("Corrected PPM: "+str(corrected_ppm)+"ppm")
     
+    ozone_concentration = sen0321.get_ozone_data(20)*1.996
+    print("Ozone: %d \u03BCg/m^3."%ozone_concentration)
+
 
 
     time.sleep(5)
