@@ -284,3 +284,15 @@ class BME280:
     hd = h * 100 // 1024 - hi * 100
     return "{}.{:02d}%".format(hi, hd)
 
+bme280_i2c = I2C(1,scl=Pin(7), sda=Pin(6), freq=10000)
+bme = BME280(i2c=bme280_i2c)
+
+while 1:
+    temp = bme.temperature
+    hum = bme.humidity
+    pres = bme.pressure
+    print('bme280')
+    print('Temperature: ', temp)
+    print('Humidity: ', hum)
+    print('Pressure: ', pres)
+    time.sleep(5)

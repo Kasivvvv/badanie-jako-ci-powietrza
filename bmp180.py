@@ -186,4 +186,17 @@ class BMP180():
             p = 0.0
         return p
     
+bmp180_i2c =  I2C(1, scl=Pin(7), sda=Pin(6), freq=100000)
+bmp180 = BMP180(bmp180_i2c)
+
+while 1:
+    temp = bmp180.temperature
+    p = bmp180.pressure
+    altitude = bmp180.altitude
+    print('bmp180')
+    print('Temperature: ', temp)
+    print('Altitude: ', altitude)
+    print('Pressure: ', p)
+    time.sleep(5)
+    
 

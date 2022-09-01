@@ -98,10 +98,17 @@ def mq135lib_example():
         resistance = mq135.get_resistance()
         ppm = mq135.get_ppm()
         corrected_ppm = mq135.get_corrected_ppm(temperature, humidity)
-
         print( 'PPM:'+str(ppm)+
               "\t Corrected PPM: "+str(corrected_ppm)+"ppm")
         time.sleep(3)
 
-
+while 1:
     
+    mq135 = MQ135(26)
+    print(mq135.get_resistance())
+    print('MQ-135')
+    ppm = mq135.get_ppm()
+    corrected_ppm = mq135.get_corrected_ppm(25.0, 36.0)
+    print('PPM:',ppm,'ppm')
+    print("Corrected PPM: "+str(corrected_ppm)+"ppm")
+    time.sleep(5)

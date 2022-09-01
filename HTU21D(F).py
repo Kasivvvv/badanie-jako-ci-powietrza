@@ -72,4 +72,13 @@ class HTU21D(object):
         return -6 + (125.0 * raw / 65536)
 
     def test(self):
-        print("estoy dentro
+        print("estoy dentro")
+
+while 1:
+    lectura = HTU21D(7,6)
+    hum = lectura.humidity
+    temp = lectura.temperature
+    print('HTU21')
+    print('Humedad: ', + hum)
+    print('Temperatura: ', + temp)
+    time.sleep(5)

@@ -16,7 +16,7 @@ class MQ7:
         self.v_in = 3.3
     
     def readPpm(self):
-        return self.COEF_A0*((self.readRs()/self.calibrate())**self.COEF_A1)
+        return (self.COEF_A0*((self.readRs()/self.calibrate())**self.COEF_A1))/100
     
     def readRs(self):
         return self.LOAD_RES * self.readRsRl()
@@ -36,7 +36,7 @@ class MQ7:
 
 mq7 = MQ7(26,3.3)
 timer_work = Timer()
-timer_calibartion = Timer()
+
 
 def do_calibartion(timer_calibartion):
     print('Calibarting')
@@ -49,8 +49,13 @@ def do_work(timer_work):
 
 
 timer_work.init(freq=1, mode=Timer.PERIODIC, callback=do_work)
-timer_calibartion.init(freq=0.2, mode=Timer.PERIODIC, callback=do_calibartion)
 
+
+while 1:
+    mq7.calibrate()
+    print('PPM = {} '.format(mq7.readPpm()))
+    time.sleep(5)
+    
 
 
     
